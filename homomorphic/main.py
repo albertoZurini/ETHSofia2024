@@ -1,5 +1,6 @@
 import random
 import gmpy2
+import json
 
 class PaillierHomomorphicEncryption:
     def __init__(self, bits=512):
@@ -48,7 +49,18 @@ ciphertext3 = paillier.encrypt(plaintext3)
 ciphertext_sum = paillier.homomorphic_add(ciphertext1, ciphertext2)
 ciphertext_sum = paillier.homomorphic_add(ciphertext_sum, ciphertext3)
 
+to_save = {
+    "n1":   int(ciphertext1),
+    "n2":   int(ciphertext2),
+    "n3":   int(ciphertext3),
+    "nq":   int(paillier.n_sq),
+    "sum":  int(ciphertext_sum),
+}
+with open("out.json", "w") as f:
+    print(to_save)
+    f.write(json.dumps(to_save))
+
 # Decrypt the sum
-decrypted_sum = paillier.decrypt(ciphertext_sum)
+decrypted_sum = paillier.decrypt(int(ciphertext_sum))
 
 print(f"Decrypted sum: {decrypted_sum}")  # Should output 25
