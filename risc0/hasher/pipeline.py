@@ -6,14 +6,16 @@ with open("/home/alberto/Documents/hackathon/202410_ETHSofia/zkverify/homomorphi
 
 enc = " ".join([ str(i) for i in data["encrypted"]])
 
-os.system(f"""cargo run --release -- {enc} {data["enc_sum"]} {data["key"]} {data["clear_sum"]} > output.txt""")
+cmd = f"""cargo run --release -- {enc} {data["enc_sum"]} {data["key"]} {data["clear_sum"]} > output.txt"""
+print("Executing", cmd)
+os.system(cmd)
 
 with open("/home/alberto/Documents/hackathon/202410_ETHSofia/zkverify/risc0/hasher/output.txt", "r") as f:
     data = f.read().split("\n")
 
-proof = "0x" + data[1].replace('"', "").replace("Serialized bytes array (hex) INNER: ", "")
-pubs =  "0x" + data[3].replace('"', "").replace("Serialized bytes array (hex) JOURNAL: ", "")
-vk =    "0x" + data[5].replace('"', "").replace("Serialized bytes array (hex) IMAGE_ID: ", "")
+proof = "0x" + data[0].replace('"', "").replace("Serialized bytes array (hex) INNER: ", "")
+pubs =  "0x" + data[2].replace('"', "").replace("Serialized bytes array (hex) JOURNAL: ", "")
+vk =    "0x" + data[4].replace('"', "").replace("Serialized bytes array (hex) IMAGE_ID: ", "")
 
 json_obj = {
     "vk": vk,
