@@ -23,19 +23,22 @@ def generate_key():
 
 # Example usage
 if __name__ == "__main__":
-    HOW_MANY = 2
+    HOW_MANY = 10
     key = generate_key()  # The encryption key
     he = SimpleHomomorphicEncryption(key)
 
     # Original numbers
-    cleartext_amounts = [10 + i for i in range(HOW_MANY)]
+    transactions = [10, 15, 20, -10, 10]
+    random.shuffle(transactions)
+    cleartext_amounts = transactions
     clear_sum = sum(cleartext_amounts)
 
     encrypted = [he.encrypt(i) for i in cleartext_amounts]
 
-    enc_sum = encrypted[0]
-    for i in range(1, HOW_MANY):
-        enc_sum = he.add_encrypted(enc_sum, encrypted[i])
+    #enc_sum = encrypted[0]
+    #for i in range(1, HOW_MANY):
+    #    enc_sum = he.add_encrypted(enc_sum, encrypted[i])
+    enc_sum = sum(encrypted)
 
     dec_sum = he.decrypt(enc_sum)
 

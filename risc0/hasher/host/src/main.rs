@@ -29,20 +29,26 @@ fn main() {
     //let input: u32 = 15 * u32::pow(2, 27) + 1;
 
     //let 
-
-    let input1_s: String = std::env::args().nth(1).unwrap();
-    let input2_s: String = std::env::args().nth(2).unwrap();
-    let result_s: String = std::env::args().nth(3).unwrap();
-    let key_s:    String = std::env::args().nth(4).unwrap();
-    let sum_s:    String = std::env::args().nth(5).unwrap();
+    let mut i = 1;
+    let input1_s: String = std::env::args().nth(i).unwrap(); i+=1;
+    let input2_s: String = std::env::args().nth(i).unwrap(); i+=1;
+    let input3_s: String = std::env::args().nth(i).unwrap(); i+=1;
+    let input4_s: String = std::env::args().nth(i).unwrap(); i+=1;
+    let input5_s: String = std::env::args().nth(i).unwrap(); i+=1;
+    let result_s: String = std::env::args().nth(i).unwrap(); i+=1;
+    let key_s:    String = std::env::args().nth(i).unwrap(); i+=1;
+    let sum_s:    String = std::env::args().nth(i).unwrap(); i+=1;
     
-    let input1 = input1_s.parse::<u32>().unwrap();
-    let input2 = input2_s.parse::<u32>().unwrap();
-    let result = result_s.parse::<u32>().unwrap();
-    let key = key_s.parse::<u32>().unwrap();
-    let sum = sum_s.parse::<u32>().unwrap();
+    let input1 = input1_s.parse::<i32>().unwrap();
+    let input2 = input2_s.parse::<i32>().unwrap();
+    let input3 = input3_s.parse::<i32>().unwrap();
+    let input4 = input4_s.parse::<i32>().unwrap();
+    let input5 = input5_s.parse::<i32>().unwrap();
+    let result = result_s.parse::<i32>().unwrap();
+    let key = key_s.parse::<i32>().unwrap();
+    let sum = sum_s.parse::<i32>().unwrap();
 
-    assert!(input1 + input2 == result);
+    assert!(input1 + input2 + input3 + input4 + input5 == result);
     assert!(result == sum * key);
 
     let public_data = input1_s.clone() + ":" + 
