@@ -5,6 +5,8 @@ use methods::{
 };
 use risc0_zkvm::{default_prover, ExecutorEnv};
 
+
+
 fn main() {
     // Initialize tracing. In order to view logs, run `RUST_LOG=info cargo run`
     tracing_subscriber::fmt()
@@ -24,12 +26,30 @@ fn main() {
     // ExecutorEnvBuilder::build().
 
     // For example:
-    // let input: u32 = 15 * u32::pow(2, 27) + 1;
-    let input: String = std::env::args().nth(1).unwrap();
-    println!("Input argument is: {}", input);
+    //let input: u32 = 15 * u32::pow(2, 27) + 1;
 
+    //let 
+
+    let input1_s: String = std::env::args().nth(1).unwrap();
+    let input2_s: String = std::env::args().nth(2).unwrap();
+    let result_s: String = std::env::args().nth(3).unwrap();
+    let key_s:    String = std::env::args().nth(4).unwrap();
+    let sum_s:    String = std::env::args().nth(5).unwrap();
+    
+    let input1 = input1_s.parse::<u32>().unwrap();
+    let input2 = input2_s.parse::<u32>().unwrap();
+    let result = result_s.parse::<u32>().unwrap();
+    let key = key_s.parse::<u32>().unwrap();
+    let sum = sum_s.parse::<u32>().unwrap();
+
+    assert!(input1 + input2 == result);
+    assert!(result == sum * key);
+
+    let public_data = input1_s.clone() + ":" + 
+    &input2_s.clone() + ":" + &result_s.clone();
+    
     let env = ExecutorEnv::builder()
-        .write(&input)
+        .write(&public_data)
         .unwrap()
         .build()
         .unwrap();
@@ -39,6 +59,7 @@ fn main() {
 
     // Proof information by proving the specified ELF binary.
     // This struct contains the receipt along with statistics about execution of the guest
+    
     let prove_info = prover
         .prove(env, HASHER_GUEST_ELF)
         .unwrap();

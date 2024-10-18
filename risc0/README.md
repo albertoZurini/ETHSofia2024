@@ -1,3 +1,9 @@
+# How to use
+
+1. Write the code for the circuit
+2. Run `pipeline.py`
+
+
 # Guides
 - https://dev.risczero.com/api/zkvm/install#install (Just run `build.sh` for this)
 - https://docs.zkverify.io/tutorials/run-a-zkrollup/risc0_installation/ 
