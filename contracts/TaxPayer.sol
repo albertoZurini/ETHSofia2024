@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import "./IERC20.sol";
-
 /// @title TaxPayer - A contract for managing tax applications using zkProofs and attestations with stablecoin payments
 /// @notice This contract allows users to submit tax applications, government to verify and accept them, and users to pay the taxes in stablecoins.
 /// @dev This contract uses structured data and state transitions to prevent rollback of tax application states.
+
+interface IERC20 {
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool success);
+}
 
 contract TaxPayer {
 
@@ -40,6 +42,12 @@ contract TaxPayer {
     /// @param attestationId Attestation ID provided by the government
     /// @param amountTaxDue Amount of tax to be paid
     event TaxApplicationAccepted(bytes32 indexed taxId, bytes32 attestationId, uint256 amountTaxDue);
+
+    /// @notice Event emitted when a tax application is rejected due to an amount mismatch
+    /// @param taxId Unique ID of the tax application
+    /// @param attestationId Attestation ID provided by the government
+    /// @param amountTaxDue Amount of tax to be paid given by the proof
+    event TaxApplicationRejected(bytes32 indexed taxId, bytes32 attestationId, uint256 amountTaxDue);
 
     /// @notice Event emitted when a tax payment is made
     /// @param taxId Unique ID of the tax application
@@ -101,7 +109,11 @@ contract TaxPayer {
 
         if (app.user == address(0)) revert InvalidTaxId(); // Tax application must exist
         if (app.attestationId != 0) revert InvalidStage(); // Cannot accept a tax application twice
-        if (app.amountTaxDue != amountTaxDue) revert AmountMismatch(); // Amount must match
+        if (app.amountTaxDue != amountTaxDue) {
+            taxApplications[taxId].user = address(0);
+            emit TaxApplicationRejected(taxId, attestationId, amountTaxDue); // Trigger rejection event on mismatch
+            return; // Cancel the tax application
+        }
 
         app.attestationId = attestationId;
 
@@ -119,7 +131,9 @@ contract TaxPayer {
         if (app.amountTaxDue == 0) revert InvalidStage(); // No taxes due
 
         // Transfer the tax payment to the government
-        if (!stablecoin.transferFrom(msg.sender, government, app.amountTaxDue)) revert AmountMismatch(); // Must pay the exact amount
+        if (!stablecoin.transferFrom(msg.sender, government, app.amountTaxDue)) {
+            revert AmountMismatch();
+        }
 
         // Mark the tax as paid
         uint256 amountPaid = app.amountTaxDue;
