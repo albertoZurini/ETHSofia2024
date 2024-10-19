@@ -8,6 +8,8 @@ Once the proof is generated, the government verifies it and allows me to pay the
 
 Project presentation: [https://www.youtube.com/watch?v=vasbkUKM86c](https://www.youtube.com/watch?v=vasbkUKM86c)
 
+![image](assets/diagram.png)
+
 # ISO-like documentation for SEEBLOCKS
 
 Please open `ISO.md`.
