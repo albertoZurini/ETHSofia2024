@@ -16,7 +16,7 @@ contract TaxPayer {
 
     /// @notice The government address responsible for verifying and accepting tax applications
     /// @dev This is a constant and should be set at contract deployment
-    address public constant government = 0x1234567890123456789012345678901234567890;
+    address public government;
 
     /// @notice Struct representing a tax application submitted by a user
     struct TaxApplication {
@@ -75,6 +75,7 @@ contract TaxPayer {
     /// @param _stablecoin Address of the stablecoin contract (e.g., USDC or USDT)
     constructor(IERC20 _stablecoin) {
         stablecoin = _stablecoin;
+        government = msg.sender;
     }
 
     /// @notice Function to fill a new tax application
