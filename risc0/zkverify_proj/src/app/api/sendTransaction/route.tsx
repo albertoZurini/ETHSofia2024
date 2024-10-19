@@ -22,11 +22,19 @@ async function handler(
     let body = await req.json()
     console.log(body)
 
-    let response = await fetch('https://api.sampleapis.com/wines/reds', {
-        method: 'GET',
+    let reqbody = {
+      privateKey: "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
+      taxId: 123,
+      attestationId: body.attestationId,
+      amountTaxDue: 10
+    }
+
+    let response = await fetch('http://localhost:3000/accept-tax-application', {
+        method: 'POST',
         headers: {
             'Content-type': 'application/json'
-        }
+        },
+        body: JSON.stringify(reqbody)
     })
 
     response = await response.json()

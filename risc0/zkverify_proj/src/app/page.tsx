@@ -55,15 +55,15 @@ export default function Home() {
       ? `https://testnet-explorer.zkverify.io/v0/block/${blockHash}`
       : null;
 
-  useEffect(() => {
+  const submitFun = (attestationId) => {
     fetch("/api/sendTransaction", {
       method: "POST",
-      body: JSON.stringify({a: 1}) // TODO: put the transactionResult.attestationId
+      body: JSON.stringify({attestationId: attestationId}) // TODO: put the transactionResult.attestationId
     }).then(res => res.json())
     .then(data =>{
-      console.log(data)
+      alert(JSON.stringify(data))
     })
-  })
+  }
 
   return (
       <div className={styles.page}>
@@ -126,6 +126,7 @@ export default function Home() {
                   <p>Transaction Hash: {transactionResult.txHash || 'N/A'}</p>
                   <p>Proof Type: {transactionResult.proofType || 'N/A'}</p>
                   <p>Attestation ID: {transactionResult.attestationId || 'N/A'}</p>
+                  <button onClick={() => {submitFun(transactionResult.attestationId)}}>Submit</button>
                 </div>
             )}
           </div>
