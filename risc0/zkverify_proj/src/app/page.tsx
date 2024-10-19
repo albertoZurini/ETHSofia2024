@@ -55,6 +55,16 @@ export default function Home() {
       ? `https://testnet-explorer.zkverify.io/v0/block/${blockHash}`
       : null;
 
+  useEffect(() => {
+    fetch("/api/sendTransaction", {
+      method: "POST",
+      body: JSON.stringify({a: 1}) // TODO: put the transactionResult.attestationId
+    }).then(res => res.json())
+    .then(data =>{
+      console.log(data)
+    })
+  })
+
   return (
       <div className={styles.page}>
         <div className={styles.main}>

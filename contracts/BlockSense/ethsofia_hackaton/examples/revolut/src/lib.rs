@@ -38,7 +38,7 @@ async fn oracle_request(settings: Settings) -> Result<Payload> {
             let result = handle_message(data_feed.data.as_str());
             payload.values.push(DataFeedResult {
                 id: "123".to_string(),
-                value: DataFeedResultValue::Text(result),
+                value: DataFeedResultValue::Numerical(result),
             });
             println!("{:?}", &payload.values);
         } else {
@@ -69,9 +69,9 @@ async fn oracle_request(settings: Settings) -> Result<Payload> {
     Ok(payload)
 }
 
-fn handle_message(message: &str) -> String {
+fn handle_message(message: &str) -> f64 {
     // Your logic here
     let hashed = simple_hash(message, "Secret");
     println!("Message received: {} --- hashed: {}", message, hashed);
-    hashed.to_string()
+    hashed as f64
 }
