@@ -6,6 +6,8 @@ The ZKP is performed using the homomorphic properties of the account balances. I
 
 Once the proof is generated, the government verifies it and allows me to pay the taxes.
 
+Project presentation: [https://www.youtube.com/watch?v=vasbkUKM86c](https://www.youtube.com/watch?v=vasbkUKM86c)
+
 # ISO-like documentation for SEEBLOCKS
 
 Please open `ISO.md`.
